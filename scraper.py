@@ -11,7 +11,7 @@ class NaverPhoto:
     BASE_URL = "https://search.naver.com/search.naver?where=image&sm=tab_jum&query="
 
     def __init__(self, keyword: str):
-        self.keyword = keyword.strip()
+        self.keyword = quote_plus(keyword.strip())
         self.url = self.BASE_URL + self.keyword
         self.images = {
             "site": "naver",
