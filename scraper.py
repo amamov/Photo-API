@@ -31,8 +31,9 @@ class NaverPhoto:
             response = session.get(self.url, headers=headers).text
             soup = BeautifulSoup(response, "html.parser")
             img_list = soup.select("div.img_area > a > img")
+            print(img_list[0].attrs)
             for img in img_list:
-                img_src = img["src"]
+                img_src = img["data-source"]
                 self.images["src"].append(img_src)
 
 
