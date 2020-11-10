@@ -15,7 +15,7 @@ class NaverPhoto:
         self.url = self.BASE_URL + self.keyword
         self.images = {
             "site": "naver",
-            "keyword": self.keyword,
+            "keyword": keyword.strip(),
             "src": [],
         }
 
@@ -25,19 +25,19 @@ class NaverPhoto:
     def scrape(self):
         with requests.Session() as session:
             headers = {
-                "User-Agent": UserAgent().chrome,
                 "Referer": "https://www.naver.com/",
+                "User-Agent": UserAgent().chrome,
             }
             response = session.get(self.url, headers=headers).text
             soup = BeautifulSoup(response, "html.parser")
             img_list = soup.select("div.img_area > a > img")
-            print(img_list[0].attrs)
-            for img in img_list:
-                img_src = img["data-source"]
-                self.images["src"].append(img_src)
+            if img_list:
+                for img in img_list:
+                    img_src = img["data-source"]
+                    self.images["src"].append(img_src)
 
 
 if __name__ == "__main__":
-    photo1 = NaverPhoto("조이")
+    photo1 = NaverPhoto("미카미유아")
     photo1.scrape()
     print(photo1.images)
