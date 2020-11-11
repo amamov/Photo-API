@@ -6,7 +6,15 @@ from scraper import NaverPhoto, GooglePhoto
 
 @api.route("/photos")
 def photos():
-    return jsonify(), 200
+    return (
+        jsonify(
+            [
+                {"naver": "/api/v1/photos/naver/<keyword>"},
+                {"google": "/api/v1/photos/google/<keyword>"},
+            ]
+        ),
+        200,
+    )
 
 
 # 스레드 분리해서 각 site마다 병렬로 사진 가져오기
