@@ -1,4 +1,5 @@
-from time import sleep
+import os
+from pathlib import Path
 from urllib.parse import quote_plus
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -6,30 +7,6 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-
-
-DEV_MODE = False
-
-if DEV_MODE:
-    from pathlib import Path
-
-    BASE_DIR = Path(__file__).resolve().parent
-    CHROMEDRIVER_PATH = str(BASE_DIR / "drivers" / "chromedriver")
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    browser = webdriver.Chrome(CHROMEDRIVER_PATH, options=chrome_options)
-else:
-    import os
-
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--no-sandbox")
-    browser = webdriver.Chrome(
-        executable_path=os.environ.get("CHROMEDRIVER_PATH"),
-        chrome_options=chrome_options,
-    )
 
 
 class InstaPhoto:
@@ -40,6 +17,7 @@ class InstaPhoto:
     Date : 2020.11.13
     """
 
+    DEV_MODE = False
     BASE_URL = "https://www.instagram.com/explore/tags/"
     IMAGE_CONTAINER_SELECTOR = "div.v1Nh3"
 
@@ -48,7 +26,7 @@ class InstaPhoto:
         self.url = InstaPhoto.BASE_URL + quote_plus(self.keyword)
         self.images = {
             "developer": "Yoon - Sang Seok (ammaov)",
-            "site": "naver",
+            "site": "instagram",
             "keyword": keyword.strip(),
             "src": [],
         }
@@ -57,6 +35,23 @@ class InstaPhoto:
         return f"Instagram Photo Keyword : {self.keyword}"
 
     def scrape(self):
+        if InstaPhoto.DEV_MODE:
+            BASE_DIR = Path(__file__).resolve().parent
+            CHROMEDRIVER_PATH = str(BASE_DIR / "drivers" / "chromedriver")
+            chrome_options = Options()
+            chrome_options.add_argument("--headless")
+            browser = webdriver.Chrome(CHROMEDRIVER_PATH, options=chrome_options)
+        else:
+            chrome_options = webdriver.ChromeOptions()
+            chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+            chrome_options.add_argument("--headless")
+            chrome_options.add_argument("--disable-dev-shm-usage")
+            chrome_options.add_argument("--no-sandbox")
+            browser = webdriver.Chrome(
+                executable_path=os.environ.get("CHROMEDRIVER_PATH"),
+                chrome_options=chrome_options,
+            )
+
         wait = WebDriverWait(browser, 10)
         browser.get(self.url)
         try:
