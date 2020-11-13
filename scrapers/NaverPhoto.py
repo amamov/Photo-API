@@ -1,0 +1,46 @@
+from urllib.parse import quote_plus
+from fake_useragent import UserAgent
+from bs4 import BeautifulSoup
+import requests
+
+
+class NaverPhoto:
+
+    """
+    [NaverPhoto Class]
+    Author : Yoon - Snag Seok
+    Date : 20.11.10
+    네이버 사진 스크래핑 50장 (네이버는 성인인증이 필요한 경우면 크롤링 불가능)
+    """
+
+    BASE_URL = "https://search.naver.com/search.naver?where=image&sm=tab_jum&query="
+
+    def __init__(self, keyword: str):
+        self.keyword = quote_plus(keyword.strip())
+        self.url = self.BASE_URL + self.keyword
+        self.images = {
+            "site": "naver",
+            "keyword": keyword.strip(),
+            "src": [],
+        }
+
+    def __str__(self):
+        return self.keyword
+
+    def scrape(self):
+        with requests.Session() as session:
+            headers = {
+                "Referer": "https://www.naver.com/",
+                "User-Agent": UserAgent().chrome,
+            }
+            response = session.get(self.url, headers=headers).text
+            soup = BeautifulSoup(response, "html.parser")
+            img_list = soup.select("div.img_area > a > img")
+            if img_list:
+                for img in img_list:
+                    img_src = img["data-source"]
+                    self.images["src"].append(img_src)
+
+
+if __name__ == "__main__":
+    pass

@@ -12,9 +12,11 @@ gunicorn = "*"
 pymysql = "*"
 fake-useragent = "*"
 flask-cors = "*"
+selenium = "*"
 
 [dev-packages]
 black = "*"
+flake8 = "*"
 
 [requires]
 python_version = "3.9"
