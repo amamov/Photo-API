@@ -13,6 +13,10 @@ def photos():
             [
                 {"naver": "/api/v1/photos/naver/<keyword>"},
                 {"google": "/api/v1/photos/google/<keyword>"},
+                {
+                    "instagram": "/api/v1/photos/instagram/<keyword> or\
+                         /api/v1/photos/insta/<keyword>"
+                },
             ]
         ),
         200,
