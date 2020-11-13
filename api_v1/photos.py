@@ -1,7 +1,7 @@
 import requests
 from flask import jsonify, request
 from api_v1 import api
-from scrapers import NaverPhoto, GooglePhoto
+from scrapers import NaverPhoto, GooglePhoto, InstaPhoto
 
 
 @api.route("/photos")
@@ -20,12 +20,16 @@ def photos():
 # 스레드 분리해서 각 site마다 병렬로 사진 가져오기
 @api.route("/photos/<site>/<keyword>")
 def photos_search(site, keyword):
-    if site == "naver" or site == "NAVER" or site == "Naver":
+    if site == "naver":
         photo = NaverPhoto(keyword)
         photo.scrape()
         return jsonify(photo.images), 200
-    elif site == "google" or site == "GOOGLE" or site == "Google":
+    elif site == "google":
         photo = GooglePhoto(keyword)
+        photo.scrape()
+        return jsonify(photo.images), 200
+    elif site == "instagram" or site == "insta":
+        photo = InstaPhoto(keyword)
         photo.scrape()
         return jsonify(photo.images), 200
     else:
