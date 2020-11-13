@@ -2,8 +2,8 @@ import requests
 from flask import jsonify, request
 from api_v1 import api
 from scrapers.NaverPhoto import NaverPhoto
-from scrapers.InstaPhoto import InstaPhoto
 from scrapers.GooglePhoto import GooglePhoto
+from scrapers.InstaPhoto import InstaPhoto
 
 
 @api.route("/photos")
