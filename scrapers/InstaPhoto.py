@@ -57,7 +57,6 @@ class InstaPhoto:
         return f"Instagram Photo Keyword : {self.keyword}"
 
     def scrape(self):
-
         wait = WebDriverWait(browser, 10)
         browser.get(self.url)
         try:
