@@ -53,6 +53,7 @@ class InstaPhoto:
             )
 
         wait = WebDriverWait(browser, 20)
+        browser.implicitly_wait(10)
         browser.get(self.url)
         try:
             wait.until(
