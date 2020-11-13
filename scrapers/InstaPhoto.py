@@ -51,7 +51,6 @@ class InstaPhoto:
                 executable_path=os.environ.get("CHROMEDRIVER_PATH"),
                 chrome_options=chrome_options,
             )
-
         wait = WebDriverWait(browser, 20)
         browser.implicitly_wait(10)
         browser.get(self.url)
