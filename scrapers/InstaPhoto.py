@@ -17,7 +17,7 @@ class InstaPhoto:
     Date : 2020.11.13
     """
 
-    DEV_MODE = True
+    DEV_MODE = False
     BASE_URL = "https://www.instagram.com/explore/tags/"
     IMAGE_CONTAINER_SELECTOR = "div.v1Nh3"
 
@@ -52,7 +52,7 @@ class InstaPhoto:
                 chrome_options=chrome_options,
             )
 
-        wait = WebDriverWait(browser, 30)
+        wait = WebDriverWait(browser, 20)
         browser.get(self.url)
         try:
             wait.until(
